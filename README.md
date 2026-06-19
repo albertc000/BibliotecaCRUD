@@ -1,4 +1,4 @@
-# Sistema de Control de Notas en un Servidor con Express
+# Sistema de Control de una Biblioteca
 ## Integrantes
 ###
 - albert campos
