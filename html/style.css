@@ -994,3 +994,72 @@
     cursor: pointer;
     transition: background-color 0.2s, color 0.2s;
 }
+
+.input-icon {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateX(-50%);
+    color: #888;
+    pointer-events: none; /* Icon doesn't intercept clicks */
+}
+.input-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.form-group2 {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+/* For this style, we'll often put the label below the input or use floating labels. */
+/* For simplicity and accessibility, we'll keep them above for now. */
+.form-group2 label {
+    display: block;
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+/* -- The core input style -- */
+.form-group2 input,
+.form-group2 textarea {
+    
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #ccc; /* Underline only */
+    background: transparent;
+    padding: 10px 0; /* Add padding to the bottom */
+    font-size: 1.1rem;
+    color: #333;
+    transition: border-color 0.2s;
+    padding-left: 32px; 
+}
+.form-group2 textarea {
+    height: 80px;
+    resize: none;
+}
+.form-group2 input:focus,
+.form-group2 textarea:focus {
+    outline: none;
+    border-bottom: 2px solid #333; /* Thicker underline on focus */
+}
+
+.form-control-icon {
+    width: 100%;
+    padding: 12px;
+    /* Add padding on the left to make space for the icon */
+    padding-left: 100px; 
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+.form-control-icon:focus {
+    outline: none;
+    border-color: #3498db;
+}
+.form-control-icon:focus ~ .input-icon {
+    color: #3498db; /* Change icon color on focus */
+}

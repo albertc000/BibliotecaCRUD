@@ -25,7 +25,7 @@
 
         <ul class="nav-list">
             <li class="nav-item">
-                <a href="/" class="nav-link active">
+                <a href="/inicio" class="nav-link active">
                     <svg id="icono" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="34" height="34" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 12 8-8 8 8M6 10.5V19a1 1 0 0 0 1 1h3v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h3a1 1 0 0 0 1-1v-8.5"/>
                     </svg>
@@ -43,7 +43,7 @@
         </ul>
 
         <div class="sidebar-footer">
-            <a href="#" class="nav-link" style="margin-top: 1rem;">
+            <a onclick="cerrarSesion()" class="nav-link" style="margin-top: 1rem;">
                 <svg id="icono" class="w-[34px] h-[34px] text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12l4-4m-4 4 4 4"/>
                 </svg>
@@ -109,82 +109,6 @@
 
     <script src="../js/ui.js"></script>
     <script src="../js/renderizarBD.js"></script>
-    <!--
-    <script>
-        const burger = document.getElementById('burger');
-        const sidebar = document.getElementById('sidebar');
-        const closeSidebar = document.getElementById('closeSidebar');
-
-        closeSidebar.addEventListener('click', () => {
-            sidebar.classList.remove('active');
-        });
-        function updateRgbVariables() {
-            const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary').trim();
-            if (primaryColor.startsWith('#')) {
-                const r = parseInt(primaryColor.slice(1, 3), 16);
-                const g = parseInt(primaryColor.slice(3, 5), 16);
-                const b = parseInt(primaryColor.slice(5, 7), 16);
-                document.documentElement.style.setProperty('--primary-rgb', `${r}, ${g}, ${b}`);
-            }
-        }
-        updateRgbVariables();
-
-        //
-        const totalLibros = document.getElementById('totalLibros');
-        async function cargarBD(){
-            try{
-                const respuesta = await fetch('/api/biblioteca');
-                if (!respuesta.ok) {
-                    throw new Error('Error al cargar el archivo JSON');
-                }
-                const datos = await respuesta.json();
-                totalLibros.textContent = (datos.length);
-            }
-            catch (error){
-                console.error('Hubo un problema:', error);
-            }
-            
-        }
-        cargarBD();
-        
-        async function renderizarListas() {
-            const respuesta = await fetch('/api/biblioteca');
-            const estudiantes = await respuesta.json();
-            const cuerpo = document.getElementById('cuerpoTabla');
-
-            const ultimosTresLibros = estudiantes.slice(-3).reverse();
-            //filas con los 3 ultimos libros
-            cuerpo.innerHTML = ultimosTresLibros.map(libro => {
-                    return `
-                    <tr>
-                        <td>${libro.codigo}</td>
-                        <td>${libro.titulo}</td>
-                        <td>${libro.autor}</td>
-                        <td>${libro.ano}</td>
-                    </tr>
-                `;
-            }).join('');
-
-            const respuesta2 = await fetch('/api/biblioteca');
-            const estudiantes2 = await respuesta2.json();
-            const cuerpo2 = document.getElementById('cuerpoTabla2');
-            const primerosTresLibros = estudiantes2.slice(0, 3);
-            //filas con los 3 ultimos libros
-            cuerpo2.innerHTML = primerosTresLibros.map(libro => {
-                    return `
-                    <tr>
-                        <td>${libro.codigo}</td>
-                        <td>${libro.titulo}</td>
-                        <td>${libro.autor}</td>
-                        <td>${libro.ano}</td>
-                    </tr>
-                `;
-            }).join('');
-        }
-        renderizarListas();
-
-
-    </script>
-    -->
+    <script src="../js/login.js"></script>
 </body>
 </html>

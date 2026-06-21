@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { error } = require('console');
 const express = require('express');
 const fs = require("fs");
@@ -6,15 +7,19 @@ const methodOverride = require('method-override');
 const { title } = require('process');
 const { TIMEOUT } = require('dns');
 const multer = require('multer');
+const cookieParser = require('cookie-parser');
+
 
 //iniciar server
 const app = express();
 const router = require('./routes/rutas.js');
 const { route } = require('./routes/rutas.js');
+const JWT_SECRET = process.env.JWT_SECRET;
 
 //middleware
 app.use(express.static('html'));
 app.use('/js', express.static('js'));
+app.use(cookieParser());
 
 const upload = multer(); 
 app.use(express.json());

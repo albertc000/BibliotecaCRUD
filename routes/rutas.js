@@ -1,15 +1,107 @@
 const express = require('express');
+const path = require('path');
 const multer = require('multer'); 
-const upload = multer(); 
+const upload = multer();
+const jwt = require('jsonwebtoken');
 const router = express.Router();
 const {Libro, Biblioteca} = require("./claseBiblioteca.js");
 
+//middleware de protección de rutas
+const verificarAutenticacion = (req, res, next) => {
+    //verificar si hay token
+    const token = req.cookies.auth_token;
+    
+    if (!token) {
+        return res.redirect('/'); 
+    }
+    try {
+        //si hay token, verificr que sea válido y no haya sido alterado
+        const verificado = jwt.verify(token, process.env.JWT_SECRET);
+        req.usuario = verificado; 
+        next();
+    } catch (error) {
+        //si el token expiró o es inválido, borrar cookie mala y  al login
+        res.clearCookie('auth_token');
+        res.redirect('/');
+    }
+};
+
 //rutas
-router.get('/registro', (req, res) => {
+
+router.get('/', (req, res) => {
+    //revisar si el usuario ya tiene la cookie
+    const token = req.cookies.auth_token;
+    if (token) {
+        try {
+            jwt.verify(token, process.env.JWT_SECRET);
+            return res.redirect('/inicio');
+        } catch (error) {
+            res.clearCookie('auth_token');
+        }
+    }
+    res.sendFile(path.join(__dirname, '../html/login.html'));
+});
+
+router.get('/inicio', verificarAutenticacion, (req, res) => {
+    res.render('panelControl'); // Asumiendo que tu archivo se llama login.ejs
+});
+
+router.post('/login', upload.none(), (req, res) =>{
+    const JWT_SECRET = process.env.JWT_SECRET;
+    try {
+        const { usuario, contrasena } = req.body;
+        const usuarioValido = 'admin';
+        const contraValida = 'admin';
+
+        console.log('intento de login:', usuario);
+
+        if (usuario === usuarioValido && contrasena === contraValida) {
+            //crear token con datos del usuario
+            const token = jwt.sign(
+                { 
+                    usuario: usuarioValido, 
+                    loginTime: Date.now() 
+                },
+                JWT_SECRET,
+                { 
+                    expiresIn: '24h' 
+                }
+            );
+            
+            // Enviar token como cookie HTTP-only (segura)
+            res.cookie('auth_token', token, {
+                httpOnly: true,  
+                secure: false,       
+                maxAge: 24 * 60 * 60 * 1000, //24 horas
+                sameSite: 'lax'
+            });
+            
+            console.log('login exitoso para:', usuario);
+            res.json({ 
+                exito: true, 
+                mensaje: 'login exitoso' 
+            });
+        } else {
+            console.log('login fallido para:', usuario);
+            res.status(401).json({ 
+                exito: false, 
+                mensaje: 'Datos incorrectos.'
+            });
+        }
+    } catch (error) {
+        console.error('Error en login:', error);
+        res.status(500).json({ 
+            exito: false, 
+            mensaje: 'Error interno' 
+        });
+    }
+});
+
+router.get('/registro', verificarAutenticacion, (req, res) => {
     res.render('formRegistro');
 });
 
-router.post('/nuevoLibro',  upload.none(), (req, res) =>{
+router.post('/nuevoLibro',  upload.none(), verificarAutenticacion, (req, res) =>{
     const anoActual = new Date().getFullYear();
     let BDLibros = new Biblioteca("biblioteca.json");
 
@@ -62,7 +154,7 @@ router.post('/nuevoLibro',  upload.none(), (req, res) =>{
 
 });
 
-router.put('/editarLibro', upload.none(), (req, res) => {
+router.put('/editarLibro', upload.none(), verificarAutenticacion, (req, res) => {
     const anoActual = new Date().getFullYear();
     let BDLibros = new Biblioteca("biblioteca.json");
 
@@ -99,7 +191,7 @@ router.put('/editarLibro', upload.none(), (req, res) => {
     }
 });
 
-router.post('/busquedaLibro', (req, res) => {
+router.post('/busquedaLibro', verificarAutenticacion, (req, res) => {
     let BDLibros = new Biblioteca("biblioteca.json");
     
     let codigo = req.body.codigo;
@@ -125,16 +217,16 @@ router.post('/busquedaLibro', (req, res) => {
     }
 });
 
-router.get('/listado', upload.none(), (req, res) => {
+router.get('/listado', upload.none(), verificarAutenticacion, (req, res) => {
     res.render('listado');
 });
 
-router.get('/api/biblioteca', upload.none(), (req, res) => {
+router.get('/api/biblioteca', upload.none(), verificarAutenticacion, (req, res) => {
     let BDLibros = new Biblioteca("biblioteca.json");
     res.json(BDLibros.listaLibros);
 });
 
-router.delete('/eliminarLibro', upload.none(), (req, res) => {
+router.delete('/eliminarLibro', upload.none(), verificarAutenticacion, (req, res) => {
     let BDLibros = new Biblioteca("biblioteca.json");
 
     const libro = req.body;
@@ -163,5 +255,9 @@ router.delete('/eliminarLibro', upload.none(), (req, res) => {
     
 });
 
+router.get('/logout', (req, res) => {
+    res.clearCookie('auth_token');  //destruye la cookie de sesión
+    res.redirect('/');              //lo regresa al login
+});
 
 module.exports = router;
