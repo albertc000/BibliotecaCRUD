@@ -1,7 +1,5 @@
 //clase para libros y sus funciones
 const fs = require("fs");
-const prompt = require("prompt-sync")();
-const readline = require('readline-sync');
 
 class Libro {
     codigo;     //texto/numero

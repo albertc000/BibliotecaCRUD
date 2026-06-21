@@ -10,6 +10,7 @@ router.get('/registro', (req, res) => {
 });
 
 router.post('/nuevoLibro',  upload.none(), (req, res) =>{
+    const anoActual = new Date().getFullYear();
     let BDLibros = new Biblioteca("biblioteca.json");
 
     const libro = req.body;
@@ -21,10 +22,10 @@ router.post('/nuevoLibro',  upload.none(), (req, res) =>{
     let ano = req.body.ano;
     let obtencion = req.body.obtencion;
 
-    if(!codigo || isNaN(Number(codigo)) || !titulo || !autor || !ano){
+    if(!codigo || isNaN(Number(codigo)) || !titulo || !autor || !ano || ano>anoActual){
         return res.json({ 
             exito: false, 
-            mensaje: 'Libro NO registrado con éxito',
+            mensaje: 'Por favor, completa todos los campos correctamente.',
             libro: libro 
         });
     }
@@ -33,7 +34,7 @@ router.post('/nuevoLibro',  upload.none(), (req, res) =>{
         if(BDLibros.existeLibro(codigo)){
             return res.json({ 
                 exito: false, 
-                mensaje: 'Libro NO registrado con éxito',
+                mensaje: 'El Libro ya existe en la base de datos.',
                 libro: libro 
             });
         }
@@ -51,7 +52,7 @@ router.post('/nuevoLibro',  upload.none(), (req, res) =>{
             else{
                 return res.json({ 
                     exito: false, 
-                    mensaje: 'Libro NO registrado con éxito',
+                    mensaje: 'Por favor, completa todos los campos correctamente.',
                     libro: libro 
                 });
             } 
@@ -62,6 +63,7 @@ router.post('/nuevoLibro',  upload.none(), (req, res) =>{
 });
 
 router.put('/editarLibro', upload.none(), (req, res) => {
+    const anoActual = new Date().getFullYear();
     let BDLibros = new Biblioteca("biblioteca.json");
 
     const libro = req.body;
@@ -75,7 +77,7 @@ router.put('/editarLibro', upload.none(), (req, res) => {
     let obtencion = req.body.obtencion;
 
 
-    if(!codigo || isNaN(Number(codigo)) || !titulo || !autor || !ano){
+    if(!codigo || isNaN(Number(codigo)) || !titulo || !autor || !ano || ano>anoActual){
         return res.json({ 
             exito: false, 
             mensaje: 'Libro NO actualizado con éxito',

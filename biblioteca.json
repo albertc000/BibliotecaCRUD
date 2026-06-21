@@ -1,13 +1,6 @@
 {
   "listaLibros": [
     {
-      "codigo": 1234567891014,
-      "titulo": "sssssss",
-      "autor": "sfsfsf",
-      "ano": "12124",
-      "obtencion": "Comprado"
-    },
-    {
       "codigo": 1234567891018,
       "titulo": "Don Quijote de la Mancha",
       "autor": "Miguel de Cervantes",
@@ -15,11 +8,11 @@
       "obtencion": "Comprado"
     },
     {
-      "codigo": 1234567891077,
-      "titulo": "aawwwww",
-      "autor": "aa",
-      "ano": "1",
-      "obtencion": "Comprado"
+      "codigo": 1234567891333,
+      "titulo": "asgag",
+      "autor": "asgagaasf",
+      "ano": "1098",
+      "obtencion": "Donado"
     }
   ]
 }

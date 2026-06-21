@@ -14,6 +14,7 @@ const { route } = require('./routes/rutas.js');
 
 //middleware
 app.use(express.static('html'));
+app.use('/js', express.static('js'));
 
 const upload = multer(); 
 app.use(express.json());
