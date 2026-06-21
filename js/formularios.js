@@ -81,7 +81,7 @@ if (formEditar){
     });
 }
 
-
+//eliminar
 const formEliminar = document.querySelector('#formEliminar');
 
 if (formEliminar){
