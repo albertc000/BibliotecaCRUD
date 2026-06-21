@@ -1,4 +1,4 @@
-# Sistema de Control de una Biblioteca
+# Sistema de Gestión de una Biblioteca
 ## Integrantes
 ###
 Equipo 5 — Programación II-V.
