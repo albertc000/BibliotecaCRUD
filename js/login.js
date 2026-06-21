@@ -4,7 +4,7 @@ const formLogin = document.getElementById('formLogin');
 const errorLogin = document.getElementById('mensaje-error');
 const contrasenaInput = document.getElementById('contrasena');
 
-//
+//proceso de iniciar sesion
 formLogin.addEventListener('submit', async (e) => {
     e.preventDefault();
     const usuario = document.getElementById('usuario').value.trim();

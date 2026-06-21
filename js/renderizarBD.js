@@ -63,7 +63,7 @@ async function renderizarBiblioteca() {
 }
 
 
-//cargar bd para index.html
+//cargar bd para panel de control
 async function cargarBD(){
     const totalLibros = document.getElementById('totalLibros');
     if (!totalLibros) return;
@@ -115,19 +115,14 @@ async function renderizarListas() {
     }).join('');
 }
 
-
-// Ejecutar renderizarBiblioteca() SOLAMENTE en la vista de "listado"
-// Podemos saber que estamos en listado porque existe el buscador (searchInput)
 if (document.getElementById('cuerpoTabla') && document.getElementById('searchInput')) {
     renderizarBiblioteca();
 }
 
-// Ejecutar cargarBD() SOLAMENTE donde exista 'totalLibros' (index)
 if (document.getElementById('totalLibros')) {
     cargarBD();
 }
 
-// Ejecutar renderizarListas() SOLAMENTE donde exista 'cuerpoTabla2' (index)
 if (document.getElementById('cuerpoTabla2')) {
     renderizarListas();
 }

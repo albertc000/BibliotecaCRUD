@@ -41,7 +41,6 @@ if(formulario){
 }
 
 
-
 //formularios editar y eliminar
 const formEditar = document.querySelector('#formEditar');
 

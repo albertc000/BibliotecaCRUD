@@ -28,6 +28,7 @@ const verificarAutenticacion = (req, res, next) => {
 
 //rutas
 
+//por defecto
 router.get('/', (req, res) => {
     //revisar si el usuario ya tiene la cookie
     const token = req.cookies.auth_token;
@@ -42,10 +43,12 @@ router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../html/login.html'));
 });
 
+//panel de control
 router.get('/inicio', verificarAutenticacion, (req, res) => {
-    res.render('panelControl'); // Asumiendo que tu archivo se llama login.ejs
+    res.render('panelControl'); 
 });
 
+//login
 router.post('/login', upload.none(), (req, res) =>{
     const JWT_SECRET = process.env.JWT_SECRET;
     try {
@@ -97,10 +100,12 @@ router.post('/login', upload.none(), (req, res) =>{
     }
 });
 
+//registro de libros
 router.get('/registro', verificarAutenticacion, (req, res) => {
     res.render('formRegistro');
 });
 
+//proceso de registrar libro
 router.post('/nuevoLibro',  upload.none(), verificarAutenticacion, (req, res) =>{
     const anoActual = new Date().getFullYear();
     let BDLibros = new Biblioteca("biblioteca.json");
@@ -154,6 +159,7 @@ router.post('/nuevoLibro',  upload.none(), verificarAutenticacion, (req, res) =>
 
 });
 
+//proceso de editar libro
 router.put('/editarLibro', upload.none(), verificarAutenticacion, (req, res) => {
     const anoActual = new Date().getFullYear();
     let BDLibros = new Biblioteca("biblioteca.json");
@@ -191,6 +197,7 @@ router.put('/editarLibro', upload.none(), verificarAutenticacion, (req, res) => 
     }
 });
 
+//proceso de busqueda libro
 router.post('/busquedaLibro', verificarAutenticacion, (req, res) => {
     let BDLibros = new Biblioteca("biblioteca.json");
     
@@ -217,15 +224,18 @@ router.post('/busquedaLibro', verificarAutenticacion, (req, res) => {
     }
 });
 
+//listado
 router.get('/listado', upload.none(), verificarAutenticacion, (req, res) => {
     res.render('listado');
 });
 
+//biblioteca
 router.get('/api/biblioteca', upload.none(), verificarAutenticacion, (req, res) => {
     let BDLibros = new Biblioteca("biblioteca.json");
     res.json(BDLibros.listaLibros);
 });
 
+//proceso de eliminar libro
 router.delete('/eliminarLibro', upload.none(), verificarAutenticacion, (req, res) => {
     let BDLibros = new Biblioteca("biblioteca.json");
 
@@ -255,6 +265,7 @@ router.delete('/eliminarLibro', upload.none(), verificarAutenticacion, (req, res
     
 });
 
+//cerrar sesion
 router.get('/logout', (req, res) => {
     res.clearCookie('auth_token');  //destruye la cookie de sesión
     res.redirect('/');              //lo regresa al login
