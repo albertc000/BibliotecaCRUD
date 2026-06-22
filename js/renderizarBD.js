@@ -62,6 +62,34 @@ async function renderizarBiblioteca() {
     console.log("exito al renderizar");
 }
 
+//busqueda
+const input = document.getElementById('searchInput');
+const emptyState = document.getElementById('emptyState');
+
+if (input) {
+    input.addEventListener('keyup', (e) => {
+        const term = e.target.value.toLowerCase();
+        let matchCount = 0;
+        
+        //consultar las filas 
+        const rows = document.querySelectorAll('#cuerpoTabla tr');
+
+        rows.forEach(row => {
+            const text = row.innerText.toLowerCase();
+            if (text.includes(term)) {
+                row.style.display = '';
+                matchCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+
+        if (emptyState) {
+            emptyState.style.display = matchCount === 0 ? 'table-row-group' : 'none';
+        }
+    });
+}
+
 
 //cargar bd para panel de control
 async function cargarBD(){
@@ -115,7 +143,7 @@ async function renderizarListas() {
     }).join('');
 }
 
-if (document.getElementById('cuerpoTabla') && document.getElementById('searchInput')) {
+if (document.getElementById('cuerpoTabla')) {
     renderizarBiblioteca();
 }
 
